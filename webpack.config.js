@@ -1,5 +1,8 @@
 var path = require('path')
 var webpack = require('webpack')
+//var NpmInstallPlugin = require('npm-install-webpack-plugin')
+var autoprefixer = require('autoprefixer');
+var precss = require('precss');
 
 module.exports = {
   devtool: 'cheap-module-eval-source-map',
@@ -18,7 +21,16 @@ module.exports = {
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin()
   ],
-  module: { //Обновлено
+  module: { 
+    preLoaders: [ //добавили ESlint в preloaders
+      {
+        test: /\.js$/,
+        loaders: ['eslint'],
+        include: [
+          path.resolve(__dirname, "src"),
+        ],
+      }
+    ],
     loaders: [ //добавили babel-loader
       {
         loaders: ['react-hot', 'babel-loader'],
@@ -26,8 +38,15 @@ module.exports = {
           path.resolve(__dirname, "src"),
         ],
         test: /\.js$/,
-        plugins: ['transform-runtime'],
+        plugins: ['transform-runtime'],        
+      },
+      {
+        test:   /\.css$/,
+        loader: "style-loader!css-loader!postcss-loader"
       }
     ]
+  },
+  postcss: function () {
+    return [autoprefixer, precss];
   }
 }

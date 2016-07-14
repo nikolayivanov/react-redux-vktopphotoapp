@@ -1,13 +1,30 @@
 //document.getElementById('root').innerHTML = 'Привет, я готов к работе.'
 //module.hot.accept()
 
-import 'babel-polyfill'
+// import 'babel-polyfill'
+// import React from 'react'
+// import { render } from 'react-dom'
+// import App from './containers/App'
+
+
+// render(
+//   <App />,
+//   document.getElementById('root')
+// )
 import React from 'react'
 import { render } from 'react-dom'
+import { Provider } from 'react-redux'
 import App from './containers/App'
+import './styles/app.css'
+import configureStore from './store/configureStore'
 
+const store = configureStore()
 
 render(
-  <App />,
+  <Provider store={store}>
+  	<div className='app'>
+    	<App />
+    </div>
+  </Provider>,
   document.getElementById('root')
 )
